@@ -49,7 +49,12 @@ class _HomeState extends State<Home> {
 
     //String sql = "SELECT * FROM usuarios WHERE id = 5";
     //String sql = "SELECT * FROM usuarios WHERE idade = 30 OR idade = 58";
-    String sql = "SELECT * FROM usuarios WHERE idade = 30 OR idade = 58";
+    //String sql = "SELECT * FROM usuarios WHERE idade BETWEEN 20 AND 46";
+    //String sql = "SELECT * FROM usuarios WHERE idade IN (20, 30)";
+    //String filtro = "ari";
+    //String sql = "SELECT * FROM usuarios WHERE nome LIKE '%" + filtro + "%'";
+    //String sql = "SELECT * FROM usuarios WHERE 1=1 ORDER BY UPPER(nome) DESC";
+    String sql = "SELECT * FROM usuarios WHERE 1=1 ORDER BY idade DESC LIMIT 3";
     List usuarios = await bd.rawQuery(sql);
 
     for(var usuario in usuarios){
