@@ -91,20 +91,43 @@ class _HomeState extends State<Home> {
   _excluirUsuario(int id) async {
     Database bd = await _recuperarBancoDados();
 
-    bd.delete(
+    int retorno = await bd.delete(
       "usuarios",
-      where: "id = ?",
-      whereArgs: [id]
+      /*where: "id = ?",
+      whereArgs: [id]*/
+      where: "nome = ? AND idade = ?",
+      whereArgs: ["Zurick Gouveia", 20]
     );
+
+    print("item qtde removida: $retorno");
+  }
+
+  _atualizarUsuario(int id) async {
+    Database bd = await _recuperarBancoDados();
+
+    Map<String, dynamic> dadosUsuario = {
+      "nome": "Danielle Rodrigues",
+      "idade": 24
+    };
+
+    int retorno = await bd.update(
+        "usuarios",
+        dadosUsuario,
+        where: "id = ?",
+        whereArgs: [id]
+    );
+
+    print("item qtde atualizada: $retorno");
   }
 
   @override
   Widget build(BuildContext context) {
     //_recuperarBancoDados();
     //_salvar();
-    //_listarUsuarios();
-    //_listarUsuarioPeloId(1);
+    //_atualizarUsuario(1);
+    //_listarUsuarioPeloId(7);
     _excluirUsuario(2);
+    _listarUsuarios();
     return Container();
   }
 }
