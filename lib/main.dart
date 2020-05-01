@@ -54,7 +54,8 @@ class _HomeState extends State<Home> {
     //String filtro = "ari";
     //String sql = "SELECT * FROM usuarios WHERE nome LIKE '%" + filtro + "%'";
     //String sql = "SELECT * FROM usuarios WHERE 1=1 ORDER BY UPPER(nome) DESC";
-    String sql = "SELECT * FROM usuarios WHERE 1=1 ORDER BY idade DESC LIMIT 3";
+    //String sql = "SELECT * FROM usuarios WHERE 1=1 ORDER BY idade DESC LIMIT 3";
+    String sql = "SELECT * FROM usuarios";
     List usuarios = await bd.rawQuery(sql);
 
     for(var usuario in usuarios){
@@ -68,11 +69,42 @@ class _HomeState extends State<Home> {
     //print("usuarios: " + usuarios.toString());
   }
 
+  _listarUsuarioPeloId(int id) async {
+    Database bd = await _recuperarBancoDados();
+
+    List usuarios = await bd.query(
+      "usuarios",
+      columns: ["id", "nome", "idade"],
+      where: "id = ? ",
+      whereArgs: [id]
+    );
+
+    for(var usuario in usuarios){
+      print(
+          "item id: " + usuario['id'].toString() +
+              " nome: " + usuario['nome'] +
+              " idade: " + usuario['idade'].toString()
+      );
+    }
+  }
+
+  _excluirUsuario(int id) async {
+    Database bd = await _recuperarBancoDados();
+
+    bd.delete(
+      "usuarios",
+      where: "id = ?",
+      whereArgs: [id]
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     //_recuperarBancoDados();
     //_salvar();
-    _listarUsuarios();
+    //_listarUsuarios();
+    //_listarUsuarioPeloId(1);
+    _excluirUsuario(2);
     return Container();
   }
 }
